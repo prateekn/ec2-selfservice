@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Self Service Portal</title>
+      <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </head>
+  <body>
+   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="{{url_for('index')}}">Home</a>
+   </nav>
+   {% block content%}
+   <form class="container" method="POST"  action="{{url_for('action')}}">
+        <div class=container>
+                <h2>Current Status</h2>
+                <table class="table table-striped">
+                  <thead>
+                    <tr>
+                      <th>EC2 instance</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      {% for ec2 in ec2s %}
+                      <tr>
+                          <td>{{ec2['ec2_name']}}</td>
+                          <td>{{ec2['status']}}</td>
+                      </tr>
+                      {% endfor %}
+                  </tbody>
+                </table>
+
+                <table class="table table-striped">
+                        <thead>
+                          <tr>
+                    <th>Select EC2 instance</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                      <td>
+                        <select name="EC_select" class="selectpicker form-control">
+                            <option>None</option>
+                            {% for ec2 in ec2s %}
+                              <option>{{ec2['ec2_name']}}</option>
+                            {% endfor %}
+                        </select>
+                       </td>
+                       <td>
+                          <select name="EC_action_select" class="selectpicker form-control">
+                          <option>None</option>
+                          <option>Terminate</option>
+                          </select>
+                        </td>
+                    </tr>
+                </tbody>
+              </table>
+
+              <table class="table table-striped">
+                    <thead>
+                      <tr>
+                <th>Launch New EC2 instance</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+                <tr>
+                  <td>
+                    <select name="count_select" class="selectpicker form-control">
+                        <option>0</option>
+                          <option>1</option>
+                    </select>
+                   </td>
+                   <td>
+                      <select name="EC_action2_select" class="selectpicker form-control">
+                      <option>None</option>
+                      <option>Launch</option>
+                      </select>
+                    </td>
+                </tr>
+            </tbody>
+          </table>
+        </div>
+
+    <div class="text-center">
+        <button class="button">Submit</button>
+    </div>
+   </form>
+   {% endblock %}
+    <footer>
+      <div class="text-center">
+          <small>&copy; prateekn.com 2019</small>
+      </div>
+    </footer>
+
+  </body>
+</html>
