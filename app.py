@@ -7,7 +7,7 @@ app.config.from_object("config")
 
 @app.route('/')
 def index():
-    getstatus = get_status(aws_access_key_id,aws_secret_access_key,aws_session_token,location)
+    getstatus = get_status(aws_access_key_id,aws_secret_access_key,location)
     return render_template("index.html",ec2s=getstatus)
 
 @app.route('/action', methods=['GET', 'POST'])
@@ -21,13 +21,13 @@ def action():
 
   
     if str(action) == 'None' and str(action2)  != 'None' and int(inst_count) != 0:
-        inst_id = start_instance(aws_access_key_id,aws_secret_access_key,aws_session_token,location,image_id,instance_type)
+        inst_id = start_instance(aws_access_key_id,aws_secret_access_key,location,image_id,instance_type)
         output = "Instance",inst_id
         op = "Launch"
         return render_template("action.html",operation=op,output2=output)
     elif str(action2) == 'None' and str(action)  != 'None':
         del_instance = [instanceid]
-        delete_instance(aws_access_key_id,aws_secret_access_key,aws_session_token,location,del_instance)
+        delete_instance(aws_access_key_id,aws_secret_access_key,location,del_instance)
         output = "Instance ",del_instance," terminated"
         op = "Terminate"
         return render_template("action.html",operation=op,output2=output)
